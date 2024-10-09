@@ -30,6 +30,7 @@ async function selectionSort() {
     generateNumbers();
     infoText.content = "Selection Sort\n" + numbers.length.toString() + " numbers\n";
     var accesses = 0;
+    var comparisons = 0;
     var min = 0;
     var copy = 0;
     for (var a = 0; a < numbers.length; a++) {
@@ -37,8 +38,9 @@ async function selectionSort() {
         for (var b = a; b < numbers.length; b++) {
             if (numbersSizes[b] < numbersSizes[min]) min = b;
             accesses += 2;
+            comparisons++;
 
-            infoText.content = "Selection Sort\n" + numbers.length.toString() + " numbers\nArray Accesses: " + accesses.toString();
+            infoText.content = "Selection Sort\n" + numbers.length.toString() + " numbers\nArray Accesses: " + accesses.toString() + "\n" + comparisons.toString() + " comparisons";
         }
         copy = numbers[a];
         numbers[a] = numbers[min];
@@ -50,7 +52,7 @@ async function selectionSort() {
 
         accesses += 4; // Ignore number items
 
-        infoText.content = "Selection Sort\n" + numbers.length.toString() + " numbers\nArray Accesses: " + accesses.toString();
+        infoText.content = "Selection Sort\n" + numbers.length.toString() + " numbers\nArray Accesses: " + accesses.toString() + "\n" + comparisons.toString() + " comparisons";
     
         plotNumbers();
         await sleep(7.5 * (n / 3));
