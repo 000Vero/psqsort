@@ -84,7 +84,6 @@ function partition(low, high) {
             i++;
             numbersSizes[i], numbersSizes[j] = numbersSizes[j], numbersSizes[i];
             numbers[i], numbers[j] = numbers[j], numbers[i];
-            plotNumbers();
         }
     }
 
@@ -104,5 +103,4 @@ async function quickSort(low = 0, high = null) {
     }
 }
 
-generateNumbers();
-quickSort();
+selectionSort()
