@@ -75,5 +75,34 @@ async function plotNumbers(end = false) {
     }
 }
 
+function partition(low, high) {
+    var pivot = numbersSizes[high];
+    var i = low - 1;
 
-selectionSort(n);
+    for (var j = low; j < high; j++) {
+        if (numbersSizes[j] <= pivot) {
+            i++;
+            numbersSizes[i], numbersSizes[j] = numbersSizes[j], numbersSizes[i];
+            numbers[i], numbers[j] = numbers[j], numbers[i];
+            plotNumbers();
+        }
+    }
+
+    numbersSizes[i + 1], numbersSizes[high] = numbersSizes[high], numbersSizes[i + 1];
+    numbers[i + 1], numbers[high] = numbers[high], numbers[i + 1];
+
+    return i + 1;
+}
+
+async function quickSort(low = 0, high = null) {
+    if (high == null) high = numbers.length - 1;
+
+    if (low < high) {
+        pivotIndex = partition(low, high);
+        quickSort(low, pivotIndex - 1);
+        quickSort(pivotIndex + 1, high);
+    }
+}
+
+generateNumbers();
+quickSort();
