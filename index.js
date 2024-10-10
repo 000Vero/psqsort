@@ -117,4 +117,4 @@ async function quickSort(low = 0, high = null) {
     }
 }
 
-selectionSort();
+quickSort();
