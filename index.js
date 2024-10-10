@@ -82,13 +82,27 @@ function partition(low, high) {
     for (var j = low; j < high; j++) {
         if (numbersSizes[j] <= pivot) {
             i++;
-            numbersSizes[i], numbersSizes[j] = numbersSizes[j], numbersSizes[i];
-            numbers[i], numbers[j] = numbers[j], numbers[i];
+
+            tempSizeJ = numbersSizes[j];
+            tempJ = numbers[j];
+
+            
+            numbersSizes[j] = numbersSizes[i];
+            numbersSizes[i] = tempSizeJ;
+
+            numbers[j] = numbers[i];
+            numbers[i] = tempJ;
         }
     }
 
-    numbersSizes[i + 1], numbersSizes[high] = numbersSizes[high], numbersSizes[i + 1];
-    numbers[i + 1], numbers[high] = numbers[high], numbers[i + 1];
+    tempSizeI1 = numbersSizes[i + 1];
+    tempI1 = numbers[i + 1];
+
+    numbersSizes[i + 1] = numbersSizes[high];
+    numbersSizes[high] = tempSizeI1;
+
+    numbers[i + 1] = numbers[high];
+    numbers[high] = tempI1;
 
     return i + 1;
 }
@@ -103,4 +117,4 @@ async function quickSort(low = 0, high = null) {
     }
 }
 
-selectionSort()
+selectionSort();
