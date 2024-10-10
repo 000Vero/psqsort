@@ -9,11 +9,13 @@ var numbersSizes = [];
 var infoText = new PointText(new Point(0, 10));
 infoText.fillColor = "white";
 
-n = Math.round(Math.random() * 30) + 3;
-
 function generateNumbers() {
+    if (numbers.length > 0) {
+        for (var i = 0; i < numbers.length; i++) numbers[i].remove();
+    }
     numbers = [];
     numbersSizes = [];
+    
     for (var i = 0; i < Math.round(width / n); i++) {
         var rectheight = Math.random() * height;
         numbersSizes = numbersSizes.concat(rectheight);
@@ -54,11 +56,11 @@ async function selectionSort() {
 
         infoText.content = "Selection Sort\n" + numbers.length.toString() + " numbers\nArray Accesses: " + accesses.toString() + "\n" + comparisons.toString() + " comparisons";
     
-        plotNumbers();
+        await plotNumbers();
         await sleep(7.5 * (n / 3));
     
     }
-    plotNumbers(true);
+    await plotNumbers(true);
 }
 
 function sleep(ms) {
@@ -75,7 +77,10 @@ async function plotNumbers(end = false) {
     }
 }
 
-function partition(low, high) {
+var quickAccesses = 0;
+var quickComparisons = 0;
+
+async function partition(low, high) {
     var pivot = numbersSizes[high];
     var i = low - 1;
 
@@ -92,6 +97,14 @@ function partition(low, high) {
 
             numbers[j] = numbers[i];
             numbers[i] = tempJ;
+
+            quickAccesses += 5;
+            quickComparisons++;
+
+            infoText.content = "Quick Sort\n" + numbers.length.toString() + " numbers\nArray Accesses: " + quickAccesses.toString() + "\n" + quickComparisons.toString() + " comparisons";
+
+            plotNumbers();
+            await sleep(n / 3);
         }
     }
 
@@ -104,6 +117,13 @@ function partition(low, high) {
     numbers[i + 1] = numbers[high];
     numbers[high] = tempI1;
 
+    quickAccesses += 4;
+
+    infoText.content = "Quick Sort\n" + numbers.length.toString() + " numbers\nArray Accesses: " + quickAccesses.toString() + "\n" + quickComparisons.toString() + " comparisons";
+
+    plotNumbers();
+    await sleep(n / 3);
+
     return i + 1;
 }
 
@@ -111,10 +131,32 @@ async function quickSort(low = 0, high = null) {
     if (high == null) high = numbers.length - 1;
 
     if (low < high) {
-        pivotIndex = partition(low, high);
-        quickSort(low, pivotIndex - 1);
-        quickSort(pivotIndex + 1, high);
+        pivotIndex = await partition(low, high);
+        await quickSort(low, pivotIndex - 1);
+        await quickSort(pivotIndex + 1, high);
     }
 }
 
-quickSort();
+async function cycle() {
+    while (true) {
+
+        n = Math.round(Math.random() * 30) + 3;
+
+        generateNumbers();
+
+        infoText.content = "Quick Sort\n" + numbers.length.toString() + " numbers\n";
+
+        quickAccesses = 0;
+        quickComparisons = 0;
+
+        await quickSort()
+        await plotNumbers(true);
+        await sleep(500);
+        await plotNumbers(false);
+        await selectionSort();
+        await sleep(500);
+        await plotNumbers(false);
+    }
+}
+
+cycle();
