@@ -137,6 +137,27 @@ async function quickSort(low = 0, high = null) {
     }
 }
 
+async function stalinSort() {
+	generateNumbers();
+	let i;
+	let numLen = numbers.length;
+	let originalLen = numbers.length;
+	let accesses = 0;
+	let comparisons = 0;
+	while (i < numLen) {
+		if (numbers[i - 1] > numbers[i]) {
+			numbers.pop(i);
+			numLen--;
+		}
+		comparisons++;
+		accesses += 2;
+		i++;
+		infoText.content = "Stalin Sort\n" + originalLen.toString() + " numbers\nArray Accesses: " + accesses.toString() + "\n" + comparisons.toString() + " comparisons";
+		await plotNumbers();
+	}
+
+}
+
 async function cycle() {
     while (true) {
 
@@ -154,6 +175,9 @@ async function cycle() {
         await sleep(500);
         await plotNumbers(false);
         await selectionSort();
+        await sleep(500);
+        await plotNumbers(false);
+        await stalinSort();
         await sleep(500);
         await plotNumbers(false);
     }
