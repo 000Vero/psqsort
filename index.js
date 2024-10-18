@@ -145,8 +145,15 @@ async function stalinSort() {
 	let accesses = 0;
 	let comparisons = 0;
 	while (i < numLen) {
-		if (numbers[i - 1] > numbers[i]) {
+		if (numbersSizes[i - 1] > numbersSizes[i]) {
+			let halfBeforeTheUnwantedElement = numbersSizes.slice(0, i - 1)
+
+			const halfAfterTheUnwantedElement = numbers(i);
+
+			const copyWithoutThirdElement = halfBeforeTheUnwantedElement.concat(halfAfterTheUnwantedElement);
+			
 			numbers.pop(i);
+			numersSizes.pop(i);
 			numLen--;
 		}
 		comparisons++;
